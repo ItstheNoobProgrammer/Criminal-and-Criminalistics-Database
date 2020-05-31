@@ -29,4 +29,4 @@ Store Delete or retrive Victims details
 Store Delete or retrive Evidences and Suspect details
 ![GitHub Logo](/Images/Evidenceandsuspect.png)
 Match thr fingerprint with sored once
-![GitHub Logo](/Images/Fingerprintmatching.png)
+![GitHub Logo](/Images/Fingerprintmatching.PNG)
