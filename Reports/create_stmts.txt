@@ -1,0 +1,116 @@
+CREATE TABLE cases (
+	case_id	INTEGER PRIMARY KEY AUTO_INCREMENT,
+	location varchar ( 20 ) NOT NULL,
+	date date NOT NULL,
+	officer_incharge varchar ( 10 ),
+	description	varchar ( 100 ),
+	status	TEXT
+);
+
+CREATE TABLE criminal (
+	criminal_id INTEGER NOT NULL UNIQUE,
+	case_id	INTEGER,
+	c_name	TEXT,
+	dna_fingerprint	TEXT,
+	fingerprint TEXT,
+	FOREIGN KEY(case_id) REFERENCES cases(case_id) ON DELETE CASCADE,
+	PRIMARY KEY(criminal_id)
+);
+
+CREATE TABLE criminal_details (
+	criminalID INTEGER NOT NULL UNIQUE,
+	age INTEGER,
+	gender TEXT,
+	eye_color TEXT,
+	height INTEGER,
+	weight INTEGER,
+	FOREIGN KEY(criminalID) REFERENCES criminal(criminal_id) ON DELETE CASCADE,
+	PRIMARY KEY(criminalID)
+);
+
+CREATE TABLE user_login (
+	uid INTEGER PRIMARY KEY AUTO_INCREMENT,
+	fname varchar ( 10 ) NOT NULL,
+	lname varchar ( 10 ) NOT NULL,
+	username varchar ( 10 ) NOT NULL UNIQUE,
+	password varchar ( 8 ) NOT NULL UNIQUE,
+	designation varchar ( 10 ),
+	address	varchar ( 30 )
+);
+
+CREATE TABLE victim(
+    vid INT,
+    case_id INT,
+    vname VARCHAR(20),
+    PRIMARY KEY(vid),
+    FOREIGN KEY(case_id) REFERENCES cases(case_id) ON DELETE CASCADE
+)
+
+CREATE TABLE victim_details(
+v_id INTEGER NOT NULL,
+age INTEGER,
+gender TEXT,
+bloodGroup TEXT,
+dob TEXT,
+address text,
+nexttokin text,
+fingerprint text,    
+height integer,
+weight integer,
+eyecolor text,
+FOREIGN KEY(v_id) REFERENCES victim(vid) ON DELETE CASCADE    
+);
+
+CREATE TABLE suspect(
+sid INTEGER PRIMARY KEY NOT  NULL,
+caseid INTEGER,
+name text,
+victimRelation text,
+status text,
+FOREIGN KEY(caseid) REFERENCES cases(case_id) ON DELETE CASCADE        
+);
+
+CREATE TABLE suspect_details(
+suspectID INTEGER,
+age INTEGER,
+gender text,
+eye_color text,
+height INTEGER,
+weight INTEGER,
+FOREIGN KEY(suspectID) REFERENCES suspect(sid) ON DELETE CASCADE        
+);
+
+CREATE TABLE evidence(
+eid INTEGER PRIMARY KEY,
+caseid INTEGER,
+evidenceType TEXT,
+evidenceDetails TEXT,
+FOREIGN KEY(caseid) REFERENCES cases(case_id) ON DELETE CASCADE        
+);
+
+
+//Complex Queries
+------------------------------------------------------------------------
+[1] TRIGGER 
+CREATE TRIGGER `convicted` AFTER UPDATE ON `suspect`
+ FOR EACH ROW begin
+INSERT INTO criminal(case_id,c_name)
+SELECT caseid,name FROM suspect WHERE status = "convicted";
+end
+-------------------------------------------------------------------------
+[2] STORED PROC
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `new_user`(IN `fname1` TEXT, IN `lname1` TEXT, IN `username1` TEXT, IN `pass1` TEXT, IN `designation1` TEXT, IN `address1` TEXT)
+    NO SQL
+insert into user_login(fname,lname,username,password,designation,address)VALUES(fname1,lname1,username1,pass1,designation1,address1)$$
+DELIMITER ;
+-------------------------------------------------------------------------
+[3]
+
+-------------------------------------------------------------------------
+[4]
+
+-------------------------------------------------------------------------
+[5]
+
+-------------------------------------------------------------------------
