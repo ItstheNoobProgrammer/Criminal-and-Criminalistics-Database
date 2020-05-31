@@ -11,7 +11,7 @@ Database: Mysql
 1. Clone git in netbeans and resolve conflicts (all jar req in git)
 2. Launch Xampp and start Apache and Mysql
 3. Goto Php Myadmin and and execute "Reports/create_stmts.txt"
-4. Enjoy
+4. Schema and Detailed report in Reports folder 
 
 ## Screen Shots
 SignIn Page
